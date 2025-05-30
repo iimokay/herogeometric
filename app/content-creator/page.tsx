@@ -121,57 +121,6 @@ export default function ContentCreatorPage() {
   });
   const [recommendedAds, setRecommendedAds] = useState<typeof featuredAd[]>([]);
 
-  // Create object URLs for file previews when files change
-  useEffect(() => {
-    // Clean up previous URLs to avoid memory leaks
-    fileUrls.forEach((url) => URL.revokeObjectURL(url))
-
-    // Create new URLs for each file
-    const urls = files.map((file) => URL.createObjectURL(file))
-    setFileUrls(urls)
-
-    // Generate random image labels for each image file
-    const possibleLabels = [
-      "pet",
-      "cat",
-      "dog",
-      "kitten",
-      "puppy",
-      "animal",
-      "cute pet",
-      "furry friend",
-      "pet care",
-      "pet food",
-      "pet toy",
-      "pet bed",
-      "pet health",
-      "pet grooming",
-      "pet accessories",
-      "pet home",
-    ]
-
-    const newLabels = files.map((file) => {
-      if (file.type.startsWith("image/")) {
-        // Pick 1-3 random labels for each image
-        const numLabels = Math.floor(Math.random() * 3) + 1
-        const labels = []
-        for (let i = 0; i < numLabels; i++) {
-          const randomIndex = Math.floor(Math.random() * possibleLabels.length)
-          labels.push(possibleLabels[randomIndex])
-        }
-        return labels.join(", ")
-      }
-      return "video content"
-    })
-
-    setImageLabels(newLabels)
-
-    // Clean up when component unmounts
-    return () => {
-      urls.forEach((url) => URL.revokeObjectURL(url))
-    }
-  }, [files])
-
   // Check for shared status from URL parameters
   useEffect(() => {
     const platform = searchParams.get("platform")
@@ -304,6 +253,7 @@ export default function ContentCreatorPage() {
       // 步骤 1: 发出搜索请求
       setAnimationStep(1);
       setAnimationProgress(40);
+      setImageLabels(analysisResult.keywords);
       const searchResult = await searchAds(analysisResult);
 
       // 步骤 2: 发出图片生成请求
