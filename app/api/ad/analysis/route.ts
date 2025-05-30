@@ -38,7 +38,7 @@ The content should be in the language of the user.`
             messages
         });
 
-        const analysisResult = parseJSONObjectFromText(result.text);
+        const analysisResult = parseJSONObjectFromText(result.text) as { theme: string, keywords: string[], text: string };
 
         return NextResponse.json({
             analysisResult,
