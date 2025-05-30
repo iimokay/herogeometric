@@ -6,7 +6,7 @@ import { NextResponse } from 'next/server';
 export async function POST(req: Request) {
     try {
         const body = await req.json();
-        const { content, media } = body;
+        const { content, mediaArray } = body;
         console.log("⬇️ analysis content:", content);
         // generate image description
         const messages: CoreMessage[] = [
@@ -28,7 +28,7 @@ The content should be in the language of the user.`
                 role: "user",
                 content: [
                     { type: "text", text: content },
-                    { type: "image", image: media[0].data, mimeType: media[0].type }
+                    { type: "image", image: mediaArray[0].data, mimeType: mediaArray[0].type }
                 ],
             }
         ];

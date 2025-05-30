@@ -6,7 +6,8 @@ import { NextResponse } from "next/server";
 
 export async function POST(request: Request) {
   try {
-    const { theme, keywords, text } = await request.json();
+    const { analysisResult } = await request.json();
+    const { theme, keywords, text } = analysisResult;
     console.log("⬇️ search analysis:", text, theme, keywords);
     const products = await prisma.adMaterial.findMany();
     if (!theme) {
