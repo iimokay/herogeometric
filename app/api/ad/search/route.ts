@@ -1,3 +1,4 @@
+import { parseJSONObjectFromText } from "@/lib/parsing";
 import { prisma } from "@/lib/prisma";
 import { openai } from "@ai-sdk/openai";
 import { generateText } from "ai";
@@ -5,10 +6,10 @@ import { NextResponse } from "next/server";
 
 export async function POST(request: Request) {
   try {
-    const { content, imageDescription } = await request.json();
-    console.log("⬇️ search analysis:", content);
+    const { theme, keywords, text } = await request.json();
+    console.log("⬇️ search analysis:", text, theme, keywords);
     const products = await prisma.adMaterial.findMany();
-    if (!content) {
+    if (!theme) {
       return NextResponse.json(
         { error: "Analysis result cannot be empty" },
         { status: 400 }
@@ -16,15 +17,24 @@ export async function POST(request: Request) {
     }
     // generate ad text
     const prompt = `Given the following content analysis and product catalog, find the most relevant products:\n\n
-      content: ${content}\n\n
-      image description: ${imageDescription}\n\n
-      Product Catalog: ${products.map(product => `ID: ${product.id} - Title: ${product.title} - Description: ${product.description}`).join('\n')}\n\n
-    Just return the product ID value that fits best.`
+      theme: ${theme}\n
+      keywords: ${keywords.join(',')}\n
+      Product Catalog:
+      ${products.map(product => `ID: ${product.id} - Title: ${product.title} - Description: ${product.description}`).join('\n')}\n\n`
+      + `\nResponse format should be formatted in a valid JSON block like this:
+    \`\`\`json
+    { "productId": "<string>" , "reasoning": "<string>", "relevant": "<number>" }
+    \`\`\`
+    
+    The "productId" field should be the product ID that is most relevant to the content.
+    The "reasoning" field should be the reasoning for the product selection.
+    The "relevant" field should be the relevance score of the product ID to the content, between 0 and 1.`
     const result = await generateText({
       model: openai('gpt-4o-mini'),
       prompt
     });
-    return NextResponse.json({ content, imageDescription, productId: result.text, reasoning: result.reasoning });
+    const relevantProduct = parseJSONObjectFromText(result.text) as { productId: string, reasoning: string, relevant: number };
+    return NextResponse.json({ relevantProduct, reasoning: result.reasoning });
   } catch (error) {
     console.error("Error searching ads:", error);
     return NextResponse.json(

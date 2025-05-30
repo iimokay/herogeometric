@@ -232,17 +232,12 @@ export default function ContentCreatorPage() {
   };
 
   // 修改分析内容函数，添加媒体文件
-  const analyzeContent = async (content: string, mediaFiles: File[]) => {
+  const analyzeContent = async (content: string, mediaBase64: {
+    name: string;
+    type: string;
+    data: string;
+  }[]) => {
     try {
-      // 转换所有媒体文件为 base64
-      const mediaBase64 = await Promise.all(
-        mediaFiles.map(async (file) => ({
-          name: file.name,
-          type: file.type,
-          data: await fileToBase64(file)
-        }))
-      );
-
       const response = await fetch('/api/ad/analysis', {
         method: 'POST',
         headers: {
@@ -250,7 +245,7 @@ export default function ContentCreatorPage() {
         },
         body: JSON.stringify({
           content,
-          media: mediaBase64
+          mediaArray: mediaBase64
         }),
       });
 
@@ -297,12 +292,18 @@ export default function ContentCreatorPage() {
       // 步骤 0: 发出分析请求
       setAnimationStep(0);
       setAnimationProgress(20);
-      const analysisResult = await analyzeContent(content, files);
-
+      // 转换所有媒体文件为 base64
+      const mediaArray = await Promise.all(
+        files.map(async (file) => ({
+          name: file.name,
+          type: file.type,
+          data: await fileToBase64(file)
+        }))
+      );
+      const analysisResult = await analyzeContent(content, mediaArray);
       // 步骤 1: 发出搜索请求
       setAnimationStep(1);
       setAnimationProgress(40);
-      setFiles([])
       const searchResult = await searchAds(analysisResult);
 
       // 步骤 2: 发出图片生成请求
@@ -314,9 +315,9 @@ export default function ContentCreatorPage() {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          content: analysisResult.content,
-          imageDescription: analysisResult.imageDescription,
-          productId: searchResult.productId
+          content,
+          mediaArray,
+          productId: searchResult.relevantProduct.productId
         }),
       }).then(res => res.json());
 
@@ -357,6 +358,7 @@ export default function ContentCreatorPage() {
             setLoading(false);
             setIsAnimating(false);
             setGenerated(true);
+            setFiles([])
           }, 500);
         } else {
           // 继续轮询
