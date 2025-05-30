@@ -279,9 +279,7 @@ export default function MerchantDashboardPage() {
                           value={Math.round(
                             (Number.parseFloat(campaign.spent) / Number.parseFloat(campaign.budget)) * 100,
                           )}
-                          className="h-2 bg-white/10"
-                          indicatorClassName="bg-cyan-500"
-                        />
+                          className="h-2 bg-white/10"/>
                       </div>
                     )}
                     <div className="mt-4 flex justify-end">

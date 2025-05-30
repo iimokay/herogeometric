@@ -31,7 +31,7 @@ export default function DashboardLayout({
     },
     {
       name: language === "en" ? "Campaigns" : "活动",
-      href: "/dashboard/influencer/campaigns",
+      href: "/dashboard/campaigns",
       icon: <BarChart3 className="h-5 w-5" />,
     },
     {

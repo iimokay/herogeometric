@@ -388,7 +388,7 @@ export default function InfluencerDashboardPage() {
                           <span className="text-white/60 text-sm">{language === "en" ? "Progress" : "进度"}</span>
                           <span className="text-white/60 text-sm">50%</span>
                         </div>
-                        <Progress value={50} className="h-2 bg-white/10" indicatorClassName="bg-purple-500" />
+                        <Progress value={50} className="h-2 bg-white/10" />
                       </div>
                     )}
                     {campaign.status === "pending" && (
