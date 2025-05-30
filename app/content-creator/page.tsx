@@ -342,16 +342,16 @@ export default function ContentCreatorPage() {
               id: 0,
               type: "image",
               src: statusResult.image,
-              title: searchResult.productId,
-              description: "xxxx"
+              title: analysisResult.theme,
+              description: analysisResult.text
             });
-            setGeneratedDirectAd(featuredAd.description);
-            setGeneratedIntegratedAd(featuredAd.title);
           }
 
           // 更新推荐广告
           if (searchResult?.suggestedAds) {
             setRecommendedAds(searchResult.suggestedAds);
+            setGeneratedDirectAd(imageResult.content);
+            setGeneratedIntegratedAd(imageResult.content);
           }
           // 完成生成
           setTimeout(() => {
