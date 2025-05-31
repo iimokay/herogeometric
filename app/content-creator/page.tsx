@@ -271,7 +271,7 @@ export default function ContentCreatorPage() {
       // 步骤 2: 发出图片生成请求
       setAnimationStep(2);
       setAnimationProgress(60);
-      const imageResult = await fetch('/api/ad/runway', {
+      const runwayResult = await fetch('/api/ad/runway', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -312,9 +312,9 @@ export default function ContentCreatorPage() {
           // 更新推荐广告
           if (searchResult?.suggestedAds) {
             setRecommendedAds(searchResult.suggestedAds);
-            setGeneratedDirectAd(imageResult.content);
-            setGeneratedIntegratedAd(imageResult.content);
           }
+          setGeneratedDirectAd(runwayResult.content);
+          setGeneratedIntegratedAd(runwayResult.content);
           // 完成生成
           setTimeout(() => {
             setLoading(false);
@@ -329,8 +329,8 @@ export default function ContentCreatorPage() {
       };
 
       // 开始轮询检查状态
-      if (imageResult.id) {
-        checkStatus(imageResult.id);
+      if (runwayResult.id) {
+        checkStatus(runwayResult.id);
       }
 
     } catch (error) {
@@ -1189,7 +1189,7 @@ export default function ContentCreatorPage() {
                   <Card className="bg-white/[0.03] border-white/10">
                     <CardContent className="p-6">
                       <div className="bg-white/[0.03] rounded-lg p-4 border border-white/10 mb-4 select-none">
-                        <p className="text-white whitespace-pre-line">{generatedIntegratedAd}</p>
+                        <p className="text-white whitespace-pre-line">{generatedIntegratedAd}123123</p>
                       </div>
 
                       {/* Image display section */}
