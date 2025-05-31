@@ -1189,7 +1189,7 @@ export default function ContentCreatorPage() {
                   <Card className="bg-white/[0.03] border-white/10">
                     <CardContent className="p-6">
                       <div className="bg-white/[0.03] rounded-lg p-4 border border-white/10 mb-4 select-none">
-                        <p className="text-white whitespace-pre-line">{generatedIntegratedAd}123123</p>
+                        <p className="text-white whitespace-pre-line">{generatedIntegratedAd}</p>
                       </div>
 
                       {/* Image display section */}
