@@ -170,6 +170,9 @@ export default function HeroSectionAlt() {
           <Link href="/pricing" className="text-white/70 hover:text-white transition-colors">
             {t("nav.pricing")}
           </Link>
+          <Link href="/dashboard/ad-materials" className="text-white/70 hover:text-white transition-colors">
+            {t("nav.materials")}
+          </Link>
         </nav>
       </div>
 

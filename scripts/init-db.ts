@@ -7,36 +7,36 @@ async function main() {
     // 创建示例广告素材
     const materials = [
       {
-        title: "Luxury Cat Bed",
-        description: "Ultra-soft comfort for your feline friend",
-        type: "image",
+        title: "Fashion Sunglasses",
+        description: "Express your unique style with our trendy accessories",
         images: [
-          "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/mat.jpg-3mkKl51FqLq9H7NDGQVmXGomVKG8Z7.jpeg"
-        ]
+          "https://cdn.pixabay.com/photo/2016/11/21/17/21/eyeglasses-1846595_960_720.jpg"
+        ],
+        theme: "fashion",
+        textMatchDescription: "Stylish sunglasses that express individuality",
+        imageMatchDescription: "A pair of elegant sunglasses showcasing fashion taste",
+        textInjectionPrompt: "Showcase the fashionable design and quality of our sunglasses",
+        imageInjectionPrompt: "A stylish scene featuring sunglasses"
       },
       {
-        title: "Stylish Pet Sunglasses",
-        description: "UV protection with maximum cuteness",
-        type: "video",
+        title: "Elegant Women's Hat",
+        description: "Add sophistication to your look",
         images: [
-          "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/sunglasses-lps8GxDOJM1wapurHWJ4WGepYlGYE1.mp4"
-        ]
-      },
-      {
-        title: "Premium Cat Food",
-        description: "Nutritious meals for your beloved pet",
-        type: "image",
-        images: [
-          "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/food.jpg-x9KxqYvHq9B7wGrVX0Mzc7Cl9Cvhzu.jpeg"
-        ]
+          "https://cdn.pixabay.com/photo/2018/06/26/13/07/hat-womens-3499381_960_720.jpg"
+        ],
+        theme: "fashion",
+        textMatchDescription: "An elegant women's hat that enhances your overall style",
+        imageMatchDescription: "A refined women's hat exuding elegance",
+        textInjectionPrompt: "Showcase the elegant design and styling possibilities",
+        imageInjectionPrompt: "An elegant scene featuring the hat"
       }
     ]
 
-    console.log('开始初始化数据库...')
+    console.log('Starting database initialization...')
 
     // 清空现有数据
     await prisma.adMaterial.deleteMany()
-    console.log('已清空现有数据')
+    console.log('Existing data cleared')
 
     // 创建新数据
     for (const material of materials) {
@@ -44,11 +44,11 @@ async function main() {
         data: material
       })
     }
-    console.log('已创建示例数据')
+    console.log('Sample data created')
 
-    console.log('数据库初始化完成！')
+    console.log('Database initialization completed!')
   } catch (error) {
-    console.error('数据库初始化失败:', error)
+    console.error('Database initialization failed:', error)
     process.exit(1)
   } finally {
     await prisma.$disconnect()

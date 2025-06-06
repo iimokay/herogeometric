@@ -162,6 +162,9 @@ export default function HeroSection() {
             <Link href="/pricing" className="text-white/70 hover:text-white transition-colors mr-4">
               {t("nav.pricing")}
             </Link>
+            <Link href="/dashboard/ad-materials" className="text-white/70 hover:text-white transition-colors mr-4">
+              {t("nav.materials")}
+            </Link>
             <Link href="/signup/merchant" className="text-white/70 hover:text-white transition-colors">
               {language === "en" ? "Poping Collaboration" : "Poping合作"}
             </Link>
