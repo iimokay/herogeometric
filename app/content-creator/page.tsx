@@ -1149,7 +1149,7 @@ export default function ContentCreatorPage() {
                                   />
                                   <div className="absolute inset-0 flex items-center justify-center bg-black/30">
                                     <div className="text-xs text-white/90 text-center p-1">
-                                      {imageLabels[index] || "analyzing..."}
+                                      {imageLabels?.join(", ") || "analyzing..."}
                                     </div>
                                   </div>
                                 </>
