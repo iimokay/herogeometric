@@ -313,8 +313,8 @@ export default function ContentCreatorPage() {
           if (searchResult?.suggestedAds) {
             setRecommendedAds(searchResult.suggestedAds);
           }
-          setGeneratedDirectAd(runwayResult.content);
-          setGeneratedIntegratedAd(runwayResult.content);
+          setGeneratedDirectAd(runwayResult.content.direct);
+          setGeneratedIntegratedAd(runwayResult.content.smooth);
           // 完成生成
           setTimeout(() => {
             setLoading(false);

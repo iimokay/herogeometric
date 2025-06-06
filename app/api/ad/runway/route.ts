@@ -1,3 +1,4 @@
+import { parseJSONObjectFromText } from "@/lib/parsing"
 import { prisma } from "@/lib/prisma"
 import { openai } from "@ai-sdk/openai"
 import RunwayML from "@runwayml/sdk"
@@ -20,20 +21,28 @@ export async function POST(req: Request) {
         id: productId
       }
     })
-    const prompt = `Product ads are embedded in the content, and the original text is kept as unchanged as possible\n\n` +
+    const prompt = `Product ads are embedded in the content\n\n` +
       `content: ${content}\n` +
       `product ads description: ${product?.description}\n\n` +
-      `The content should be in the language of the user.\n`
+      `The content should be in the language of the user.\n\n` +
+      `Response format should be formatted in a valid JSON block like this:
+\`\`\`json
+{ "smooth": "<string>", "direct": "<string>" }
+\`\`\`
+
+The "smooth" field should be the smoothness of smooth the product ads in the content.
+The "direct" field should be the directness of original text is kept as unchanged as possible`
 
     const result = await generateText({
       model: openai('gpt-4o-mini'),
       prompt
     });
+    const { smooth, direct } = parseJSONObjectFromText(result.text) as { smooth: string, direct: string };
 
     // Create image generation task
     const textToImage = await client.textToImage.create({
       model: "gen4_image",
-      promptText: `merge this two contents in a proper way,the original content should be kept as unchanged as possible`,
+      promptText: `Do not modify the original image, and add product to the original image reasonably`,
       ratio: "1024:1024",
       referenceImages: [
         {
@@ -47,7 +56,7 @@ export async function POST(req: Request) {
       ],
     })
     // Return generated image
-    return NextResponse.json({ ...textToImage, reasoning: result.reasoning, content: result.text })
+    return NextResponse.json({ ...textToImage, reasoning: result.reasoning, content: { smooth, direct } })
   } catch (error) {
     console.error("Error generating image:", error)
     return NextResponse.json(

@@ -19,7 +19,7 @@ export async function POST(req: Request) {
 \`\`\`
 
 The "theme" field should be categorization of content themes,short and concise.
-The "keywords" field should be an array of keywords that are relevant to the content.
+The "keywords" field should be an array of keywords that are identify the subject in the picture.
 The "text" field should be the content of the piece of content,short and concise.
 
 The content should be in the language of the user.`
