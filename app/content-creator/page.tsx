@@ -1278,7 +1278,7 @@ export default function ContentCreatorPage() {
 
                       {/* Recommended Ads */}
                       <div className="mt-6">
-                        <h3 className="text-white font-medium mb-3">Recommended Ads:</h3>
+                        <h3 className="text-white font-medium mb-3">Recommended Ads</h3>
 
                         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                           {recommendedAds.map((ad, index) => (
@@ -1408,7 +1408,7 @@ export default function ContentCreatorPage() {
 
                       {/* Recommended Ads */}
                       <div className="mt-6">
-                        <h3 className="text-white font-medium mb-3">Recommended Ads:</h3>
+                        <h3 className="text-white font-medium mb-3">Recommended Ads</h3>
 
                         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                           {recommendedAds.map((ad, index) => (
